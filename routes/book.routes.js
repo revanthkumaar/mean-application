@@ -6,7 +6,7 @@ let Book = require("../model/Book");
 
 
 // Get All Book
-bookRoute.route('/').get((req, res) => {
+bookRoute.route('/booksInfo').get((req, res) => {
     Book.find((error, data) => {
     if (error) {
       return next(error)
