@@ -12,7 +12,7 @@ serverapp.use(cors(corsOptions));
 serverapp.use(express.json());
 
 //route
-server.get("/",(req,res) => {
+serverapp.get("/",(req,res) => {
     res.json({message:'your server is active here'});
 })
 
