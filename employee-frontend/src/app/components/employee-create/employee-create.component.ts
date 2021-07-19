@@ -1,6 +1,6 @@
-import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './../../service/api.service';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class EmployeeCreateComponent implements OnInit {
   submitted = false;
   employeeForm: FormGroup;
+  EmployeeProfile: any = ['Finance', 'BDM', 'HR', 'Sales', 'Admin'];
 
   constructor(
     public fb: FormBuilder,
@@ -21,7 +22,7 @@ export class EmployeeCreateComponent implements OnInit {
     this.mainForm();
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
   mainForm() {
     this.employeeForm = this.fb.group({
@@ -36,6 +37,18 @@ export class EmployeeCreateComponent implements OnInit {
       designation: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     });
+  }
+
+  // Choose designation with select dropdown
+  updateProfile(e) {
+    this.employeeForm.get('designation').setValue(e, {
+      onlySelf: true,
+    });
+  }
+
+  // Getter to access form control
+  get myForm() {
+    return this.employeeForm.controls;
   }
 
   onSubmit() {
