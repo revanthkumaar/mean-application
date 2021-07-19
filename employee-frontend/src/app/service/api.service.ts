@@ -16,32 +16,53 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  //create
+  // Create
   createEmployee(data): Observable<any> {
     let url = `${this.baseUri}/create`;
-    this.http.post(url, data).pipe(catchError(this.errorMgmt));
+    return this.http.post(url, data).pipe(catchError(this.errorMgmt));
   }
-
-  //get complete information
 
   // Get all employees
   getEmployees() {
     return this.http.get(`${this.baseUri}`);
   }
 
-  //get single employee info
+  // Get employee
+  getEmployee(id): Observable<any> {
+    let url = `${this.baseUri}/read/${id}`;
+    return this.http.get(url, { headers: this.headers }).pipe(
+      map((res) => {
+        return res || {};
+      }),
+      catchError(this.errorMgmt)
+    );
+  }
 
-  //update
+  // Update employee
+  updateEmployee(id, data): Observable<any> {
+    let url = `${this.baseUri}/update/${id}`;
+    return this.http
+      .put(url, data, { headers: this.headers })
+      .pipe(catchError(this.errorMgmt));
+  }
 
-  //delete
+  // Delete employee
+  deleteEmployee(id): Observable<any> {
+    let url = `${this.baseUri}/delete/${id}`;
+    return this.http
+      .delete(url, { headers: this.headers })
+      .pipe(catchError(this.errorMgmt));
+  }
 
-  //error handling
+  // Error handling
   errorMgmt(error: HttpErrorResponse) {
     let errorMessage = '';
-    if (error.error instanceof Errorevent) {
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
       errorMessage = error.error.message;
     } else {
-      errorMessage = `Error code: ${error.status}\nMessage: ${error.message}`;
+      // Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
     return throwError(errorMessage);
